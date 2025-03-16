@@ -1,17 +1,24 @@
-import { useState } from "react";
-import Data from "../../../data.json";
+import {  useState } from "react";
 type jobProps = {
   text: string;
 };
 
-function JobBtn({ text,  job }: jobProps) {
-  const [bgColor, setBgColor] = useState<Boolean>(true);
-
+function JobBtn({ text }: jobProps) {
+  const [bgColor, setBgColor] = useState<Boolean>(true)
+    const GetItem = localStorage.getItem("item");
+    const ParsedItem = GetItem ? JSON.parse(GetItem) : [];
   const fn = () => {
     setBgColor(!bgColor);
-    const filteredData = Data.filter((job) => {
-      return job.id == job.id
-    });
+
+    const ItemObject = {
+      text: text,
+      id: new Date(),
+    };
+
+    let PushItem;
+
+    PushItem = [...ParsedItem, ItemObject];
+    localStorage.setItem("item", JSON.stringify(PushItem));
   };
   return (
     <>
@@ -26,3 +33,24 @@ function JobBtn({ text,  job }: jobProps) {
   );
 }
 export default JobBtn;
+
+// const GetData = localStorage.getItem("item");
+// const ParsedData = GetData ? JSON.parse(GetData) : [];
+
+// const checkId = ParsedData.some((num: jobProps) => {
+//   return num.id === arr
+// });
+
+// let updateStorage;
+
+// if (checkId) {
+//   updateStorage = ParsedData.filter((num: jobProps) => {
+//     return num.role !== arr;
+//   });
+// } else {
+//   const filteredData = Data.filter((job) => {
+//     return job.role === arr;
+//   });
+//   updateStorage = [...ParsedData, ...filteredData];
+// }
+// localStorage.setItem("item", JSON.stringify(updateStorage));
